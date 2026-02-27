@@ -1,36 +1,46 @@
 /*
 @author developer
-@version 3
+@version 4
 */
 
 package com.main;
 
 import java.util.Scanner;
+
 import com.userManagement.*;
+import com.contactManagement.*;
 
 public class Main {
 
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
+
         UserService userService = new UserService();
+        ContactService contactService = new ContactService();
 
-        while (true) {
+        boolean running = true;
 
-            System.out.println("\n--- UC-03: Profile Management ---");
+        while (running) {
+
+            System.out.println("\n UC-04: Contact Management System ");
+            System.out.println("\n===== UC-04: Contact Management System =====");
             System.out.println("1. Register");
             System.out.println("2. Login");
-            System.out.println("3. Update Name");
+            System.out.println("3. Update Profile Name");
             System.out.println("4. Change Password");
-            System.out.println("5. Logout");
-            System.out.println("6. Exit");
+            System.out.println("5. Create Contact");
+            System.out.println("6. Logout");
+            System.out.println("7. Exit");
             System.out.print("Choose option: ");
 
             int choice = Integer.parseInt(scanner.nextLine());
 
             try {
+
                 switch (choice) {
 
+                    // REGISTER 
                     case 1:
                         System.out.print("Enter Name: ");
                         String name = scanner.nextLine();
@@ -52,6 +62,7 @@ public class Main {
                         System.out.println("Registration Successful!");
                         break;
 
+                    // LOGIN 
                     case 2:
                         System.out.print("Enter Email: ");
                         String loginEmail = scanner.nextLine();
@@ -66,6 +77,7 @@ public class Main {
                         }
                         break;
 
+                    // UPDATE NAME 
                     case 3:
                         if (!userService.isLoggedIn()) {
                             System.out.println("Please login first.");
@@ -76,9 +88,10 @@ public class Main {
                         String newName = scanner.nextLine();
 
                         userService.updateName(newName);
-                        System.out.println("Name Updated!");
+                        System.out.println("Profile Updated Successfully!");
                         break;
 
+                    // CHANGE PASSWORD 
                     case 4:
                         if (!userService.isLoggedIn()) {
                             System.out.println("Please login first.");
@@ -89,26 +102,74 @@ public class Main {
                         String newPassword = scanner.nextLine();
 
                         userService.changePassword(newPassword);
-                        System.out.println("Password Updated!");
+                        System.out.println("Password Changed Successfully!");
                         break;
 
+                    // CREATE CONTACT
                     case 5:
+                        if (!userService.isLoggedIn()) {
+                            System.out.println("Please login first.");
+                            break;
+                        }
+
+                        System.out.print("Contact Type (PERSON/ORG): ");
+                        String contactType = scanner.nextLine();
+
+                        System.out.print("Enter Contact Name: ");
+                        String contactName = scanner.nextLine();
+
+                        Contact contact;
+
+                        if (contactType.equalsIgnoreCase("ORG")) {
+
+                            System.out.print("Enter Organization Name: ");
+                            String orgName = scanner.nextLine();
+
+                            contact = new OrganizationContact(contactName, orgName);
+
+                        } else {
+
+                            System.out.print("Enter Date of Birth: ");
+                            String dob = scanner.nextLine();
+
+                            contact = new PersonContact(contactName, dob);
+                        }
+
+                        System.out.print("Enter Phone Number: ");
+                        String phone = scanner.nextLine();
+
+                        contact.addPhoneNumber(new PhoneNumber(phone, "mobile"));
+
+                        System.out.print("Enter Email: ");
+                        String contactEmail = scanner.nextLine();
+
+                        contact.addEmailAddress(new EmailAddress(contactEmail));
+
+                        contactService.addContact(contact);
+
+                        System.out.println("Contact Created Successfully!");
+                        break;
+                    
+                    // LOGOUT
+                    case 6:
                         userService.logout();
                         System.out.println("Logged Out Successfully!");
                         break;
 
-                    case 6:
-                        scanner.close();
-                        System.out.println("Exiting...");
-                        return;
+                    // EXIT
+                    case 7:
+                        running = false;
+                        System.out.println("Exiting Application...");
+                        break;
 
                     default:
-                        System.out.println("Invalid option.");
+                        System.out.println("Invalid Option!");
                 }
 
             } catch (Exception e) {
                 System.out.println("Error: " + e.getMessage());
             }
         }
+        scanner.close();
     }
 }
