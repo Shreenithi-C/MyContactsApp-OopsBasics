@@ -8,8 +8,8 @@ public class UserService {
 
     private List<User> users = new ArrayList<>();
     private SessionManager sessionManager = new SessionManager();
-    
-    // Registration
+
+    // UC-01: Registration
     public void register(User user) {
         for (User u : users) {
             if (u.getEmail().equals(user.getEmail())) {
@@ -19,11 +19,7 @@ public class UserService {
         users.add(user);
     }
 
-    public List<User> getAllUsers() {
-        return users;
-    }
-
-    // Login
+    // UC-02: Login
     public boolean login(String email, String password) {
 
         Authentication auth = new BasicAuth(users);
@@ -41,11 +37,30 @@ public class UserService {
         sessionManager.logout();
     }
 
+    public boolean isLoggedIn() {
+        return sessionManager.isLoggedIn();
+    }
+
     public User getLoggedInUser() {
         return sessionManager.getLoggedInUser();
     }
 
-    public boolean isLoggedIn() {
-        return sessionManager.isLoggedIn();
+    // UC-03: Profile Management
+    public void updateName(String newName) {
+
+        if (!sessionManager.isLoggedIn()) {
+            throw new IllegalStateException("User not logged in");
+        }
+
+        sessionManager.getLoggedInUser().setName(newName);
+    }
+
+    public void changePassword(String newPassword) {
+
+        if (!sessionManager.isLoggedIn()) {
+            throw new IllegalStateException("User not logged in");
+        }
+
+        sessionManager.getLoggedInUser().changePassword(newPassword);
     }
 }

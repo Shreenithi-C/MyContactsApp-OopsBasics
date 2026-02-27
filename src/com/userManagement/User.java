@@ -59,4 +59,16 @@ public abstract class User {
     public boolean checkPassword(String password) {
         return this.passwordHash.equals(hashPassword(password));
     }
+
+    public void setName(String name) {
+     if (name == null || name.isBlank()) {
+         throw new IllegalArgumentException("Name cannot be empty");
+     }
+     this.name = name;
+    }
+
+    public void changePassword(String newPassword) {
+     validatePassword(newPassword);
+     this.passwordHash = hashPassword(newPassword);
+    }
 }
