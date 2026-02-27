@@ -30,8 +30,9 @@ public class Main {
             System.out.println("3. Update Profile Name");
             System.out.println("4. Change Password");
             System.out.println("5. Create Contact");
-            System.out.println("6. Logout");
-            System.out.println("7. Exit");
+            System.out.println("6. View Contact");
+            System.out.println("7. Logout");
+            System.out.println("8. Exit");
             System.out.print("Choose option: ");
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -149,15 +150,37 @@ public class Main {
 
                         System.out.println("Contact Created Successfully!");
                         break;
+                        
+                    // View Contact   
+                    case 6:
+
+                        if (!userService.isLoggedIn()) {
+                            System.out.println("Please login first.");
+                            break;
+                        }
+
+                        System.out.print("Enter Contact ID: ");
+                        String contactId = scanner.nextLine();
+
+                        java.util.Optional<Contact> result =
+                                contactService.findContactById(contactId);
+
+                        if (result.isPresent()) {
+                            System.out.println(result.get());
+                        } else {
+                            System.out.println("Contact not found.");
+                        }
+
+                        break;
                     
                     // LOGOUT
-                    case 6:
+                    case 7:
                         userService.logout();
                         System.out.println("Logged Out Successfully!");
                         break;
 
                     // EXIT
-                    case 7:
+                    case 8:
                         running = false;
                         System.out.println("Exiting Application...");
                         break;

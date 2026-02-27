@@ -51,4 +51,28 @@ public abstract class Contact {
     public void addEmailAddress(EmailAddress email) {
         emailAddresses.add(email);
     }
+    
+    @Override
+    public String toString() {
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("\n===== Contact Details =====\n");
+        sb.append(String.format("ID: %s\n", id));
+        sb.append(String.format("Name: %s\n", name));
+        sb.append(String.format("Created At: %s\n", createdAt));
+
+        sb.append("Phone Numbers:\n");
+        for (PhoneNumber phone : phoneNumbers) {
+            sb.append(String.format(" - %s (%s)\n",
+                    phone.getNumber(), phone.getType()));
+        }
+
+        sb.append("Email Addresses:\n");
+        for (EmailAddress email : emailAddresses) {
+            sb.append(String.format(" - %s\n", email.getEmail()));
+        }
+
+        return sb.toString();
+    }
 }
