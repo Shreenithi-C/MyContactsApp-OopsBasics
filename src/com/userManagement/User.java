@@ -55,4 +55,8 @@ public abstract class User {
             throw new RuntimeException("Hashing error");
         }
     }
+    
+    public boolean checkPassword(String password) {
+        return this.passwordHash.equals(hashPassword(password));
+    }
 }

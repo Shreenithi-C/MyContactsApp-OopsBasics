@@ -1,6 +1,6 @@
 /*
 @author developer
-@version 1
+@version 2
 */
 
 package com.main;
@@ -17,9 +17,10 @@ public class Main {
 
         while (true) {
 
-            System.out.println("\n--- UC-01: User Registration ---");
+            System.out.println("\n--- UC-02: Registration & Login ---");
             System.out.println("1. Register");
-            System.out.println("2. Exit");
+            System.out.println("2. Login");
+            System.out.println("3. Exit");
             System.out.print("Choose option: ");
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -40,18 +41,29 @@ public class Main {
                         System.out.print("User Type (FREE/PREMIUM): ");
                         String type = scanner.nextLine();
 
-                        User user;
-                        if (type.equalsIgnoreCase("PREMIUM")) {
-                            user = new PremiumUser(email, password, name);
-                        } else {
-                            user = new FreeUser(email, password, name);
-                        }
+                        User user = type.equalsIgnoreCase("PREMIUM")
+                                ? new PremiumUser(email, password, name)
+                                : new FreeUser(email, password, name);
 
                         userService.register(user);
                         System.out.println("Registration Successful!");
                         break;
 
                     case 2:
+                        System.out.print("Enter Email: ");
+                        String loginEmail = scanner.nextLine();
+
+                        System.out.print("Enter Password: ");
+                        String loginPassword = scanner.nextLine();
+
+                        if (userService.login(loginEmail, loginPassword)) {
+                            System.out.println("Login Successful!");
+                        } else {
+                            System.out.println("Invalid Credentials!");
+                        }
+                        break;
+
+                    case 3:
                         scanner.close();
                         System.out.println("Exiting...");
                         return;
@@ -66,3 +78,4 @@ public class Main {
         }
     }
 }
+
