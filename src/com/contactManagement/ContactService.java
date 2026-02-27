@@ -3,6 +3,7 @@ package com.contactManagement;
 import java.util.Optional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Iterator;
 
 public class ContactService {
 
@@ -36,4 +37,21 @@ public class ContactService {
         }
         return false;
     }
+
+    public boolean deleteContact(String id) {
+
+        Iterator<Contact> iterator = contacts.iterator();
+
+        while (iterator.hasNext()) {
+            Contact contact = iterator.next();
+
+            if (contact.getId().equals(id)) {
+                iterator.remove();   // safe removal
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
 }
