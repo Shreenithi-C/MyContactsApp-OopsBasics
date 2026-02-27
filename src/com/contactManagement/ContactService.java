@@ -15,6 +15,7 @@ public class ContactService {
     public List<Contact> getAllContacts() {
         return contacts;
     }
+    
     public Optional<Contact> findContactById(String id) {
 
         for (Contact contact : contacts) {
@@ -23,5 +24,16 @@ public class ContactService {
             }
         }
         return Optional.empty();
+    }
+    
+    public boolean updateContact(String id, Contact updatedContact) {
+
+        for (int i = 0; i < contacts.size(); i++) {
+            if (contacts.get(i).getId().equals(id)) {
+                contacts.set(i, updatedContact);
+                return true;
+            }
+        }
+        return false;
     }
 }

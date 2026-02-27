@@ -8,8 +8,17 @@ public class PersonContact extends Contact {
         super(name);
         this.dateOfBirth = dateOfBirth;
     }
+    
+    public PersonContact(PersonContact other) {
+        super(other);
+        this.dateOfBirth = other.dateOfBirth;
+    }
 
     public String getDateOfBirth() {
         return dateOfBirth;
+    }
+    
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 }

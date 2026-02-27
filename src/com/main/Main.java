@@ -1,11 +1,11 @@
 /*
 @author developer
-@version 4
+@version 6
 */
 
 package com.main;
 
-import java.util.Scanner;
+import java.util.*;
 
 import com.userManagement.*;
 import com.contactManagement.*;
@@ -31,8 +31,9 @@ public class Main {
             System.out.println("4. Change Password");
             System.out.println("5. Create Contact");
             System.out.println("6. View Contact");
-            System.out.println("7. Logout");
-            System.out.println("8. Exit");
+            System.out.println("7. Edit Contact");
+            System.out.println("8. Logout");
+            System.out.println("9. Exit");
             System.out.print("Choose option: ");
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -172,15 +173,45 @@ public class Main {
                         }
 
                         break;
+                        
+                    //Edit Contact 
+                    case 7:{
+
+                        if (!userService.isLoggedIn()) {
+                            System.out.println("Please login first.");
+                            break;
+                        }
+
+                        System.out.print("Enter Contact ID to edit: ");
+                        String editId = scanner.nextLine();
+
+                        Optional<Contact> Result =
+                                contactService.findContactById(editId);
+
+                        if (!Result.isPresent()) {
+                            System.out.println("Contact not found.");
+                            break;
+                        }
+
+                        Contact existing = Result.get();
+
+                        System.out.print("Enter new name: ");
+                        String newContactName = scanner.nextLine();
+
+                        existing.setName(newContactName);
+
+                        System.out.println("Contact Updated Successfully!");
+                        break;
+                    }
                     
                     // LOGOUT
-                    case 7:
+                    case 8:
                         userService.logout();
                         System.out.println("Logged Out Successfully!");
                         break;
 
                     // EXIT
-                    case 8:
+                    case 9:
                         running = false;
                         System.out.println("Exiting Application...");
                         break;

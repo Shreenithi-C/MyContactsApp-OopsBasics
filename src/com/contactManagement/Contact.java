@@ -22,8 +22,25 @@ public abstract class Contact {
         this.name = name;
         this.phoneNumbers = new ArrayList<>();
         this.emailAddresses = new ArrayList<>();
-        
     }
+    
+    //deep copy
+    public Contact(Contact other) {
+        this.id = other.id;
+        this.name = other.name;
+        this.createdAt = other.createdAt;
+
+        this.phoneNumbers = new ArrayList<>();
+        for (PhoneNumber p : other.phoneNumbers) {
+            this.phoneNumbers.add(new PhoneNumber(p.getNumber(), p.getType()));
+        }
+
+        this.emailAddresses = new ArrayList<>();
+        for (EmailAddress e : other.emailAddresses) {
+            this.emailAddresses.add(new EmailAddress(e.getEmail()));
+        }
+    }
+    
     public String getId() {
         return id;
     }
@@ -74,5 +91,20 @@ public abstract class Contact {
         }
 
         return sb.toString();
+    }
+    
+    public void setName(String name) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Name cannot be empty");
+        }
+        this.name = name;
+    }
+    
+    public void setPhoneNumbers(List<PhoneNumber> phoneNumbers) {
+        this.phoneNumbers = new ArrayList<>(phoneNumbers); 
+    }
+
+    public void setEmailAddresses(List<EmailAddress> emailAddresses) {
+        this.emailAddresses = new ArrayList<>(emailAddresses); 
     }
 }

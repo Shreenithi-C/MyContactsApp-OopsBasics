@@ -39,7 +39,7 @@ public class UserService {
 
     public boolean isLoggedIn() {
         return sessionManager.isLoggedIn();
-    }
+}
 
     public User getLoggedInUser() {
         return sessionManager.getLoggedInUser();
