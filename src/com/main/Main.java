@@ -1,14 +1,14 @@
 /*
 @author developer
-@version 10
+@version 11
 */
 
 package com.main;
 
 import java.util.*;
-
 import com.userManagement.*;
 import com.contactManagement.*;
+import com.tagManagement.*;
 
 public class Main {
 
@@ -18,6 +18,7 @@ public class Main {
 
         UserService userService = new UserService();
         ContactService contactService = new ContactService();
+        TagService tagService = new TagService();
 
         boolean running = true;
 
@@ -39,6 +40,8 @@ public class Main {
             System.out.println("13. Export Contacts");
             System.out.println("14. Search Contacts");
             System.out.println("15. Filter Contacts");
+            System.out.println("16. Create Tag");
+            System.out.println("17. View All Tags");
             System.out.print("Choose option: ");
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -452,6 +455,34 @@ public class Main {
 
                         break;
                       }
+                    
+                    //create tag
+                    case 16: {
+
+                        if (!userService.isLoggedIn()) {
+                            System.out.println("Please login first.");
+                            break;
+                        }
+
+                        System.out.print("Enter tag name: ");
+                        String tagName = scanner.nextLine();
+
+                        tagService.createTag(tagName);
+
+                        break;
+                    }
+                    
+                    //view all tags
+                    case 17: {
+
+                        System.out.println("Available Tags:");
+
+                        for (Tag tag : tagService.getAllTags()) {
+                            System.out.println(tag);
+                        }
+
+                        break;
+                    }
                     
                     default:
                         System.out.println("Invalid Option!");
