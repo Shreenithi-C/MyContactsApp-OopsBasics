@@ -32,9 +32,8 @@ public class Main {
             System.out.println("5. Create Contact");
             System.out.println("6. View Contact");
             System.out.println("7. Edit Contact");
-            System.out.println("8. Delete Contact");
-            System.out.println("9. Logout");
-            System.out.println("10. Exit");
+            System.out.println("8. Logout");
+            System.out.println("9. Exit");
             System.out.print("Choose option: ");
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -204,53 +203,15 @@ public class Main {
                         System.out.println("Contact Updated Successfully!");
                         break;
                     }
-                    
-                    case 8: {
-
-                        if (!userService.isLoggedIn()) {
-                            System.out.println("Please login first.");
-                            break;
-                        }
-
-                        System.out.print("Enter Contact ID to delete: ");
-                        String deleteId = scanner.nextLine();
-
-                        Optional<Contact> deleteResult =
-                                contactService.findContactById(deleteId);
-
-                        if (!deleteResult.isPresent()) {
-                            System.out.println("Contact not found.");
-                            break;
-                        }
-
-                        System.out.print("Are you sure you want to delete? (yes/no): ");
-                        String confirmation = scanner.nextLine();
-
-                        if (confirmation.equalsIgnoreCase("yes")) {
-
-                            boolean deleted = contactService.deleteContact(deleteId);
-
-                            if (deleted) {
-                                System.out.println("Contact Deleted Successfully.");
-                            } else {
-                                System.out.println("Deletion Failed.");
-                            }
-
-                        } else {
-                            System.out.println("Deletion Cancelled.");
-                        }
-
-                        break;
-                    }
-                    
+                   
                     // LOGOUT
-                    case 9:
+                    case 8:
                         userService.logout();
                         System.out.println("Logged Out Successfully!");
                         break;
 
                     // EXIT
-                    case 10:
+                    case 9:
                         running = false;
                         System.out.println("Exiting Application...");
                         break;
