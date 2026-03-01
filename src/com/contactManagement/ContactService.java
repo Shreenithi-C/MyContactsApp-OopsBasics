@@ -1,6 +1,9 @@
 package com.contactManagement;
 
 import java.util.Optional;
+
+import com.searchAndFilter.SearchService;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
@@ -8,7 +11,7 @@ import java.io.FileWriter;
 import java.io.File;
 import java.io.IOException;
 
-public class ContactService {
+public class ContactService implements SearchService{
 
     private List<Contact> contacts = new ArrayList<>();
 
@@ -104,6 +107,77 @@ public class ContactService {
         }
 
         writer.close();
+    }
+    
+    @Override
+    public List<Contact> searchByName(String name) {
+
+        List<Contact> results = new ArrayList<>();
+
+        for (Contact contact : contacts) {
+            if (contact.getName().toLowerCase().contains(name.toLowerCase())) {
+                results.add(contact);
+            }
+        }
+
+        return results;
+    }
+    
+    @Override
+    public List<Contact> searchByPhone(String phone) {
+
+        List<Contact> results = new ArrayList<>();
+
+        for (Contact contact : contacts) {
+
+            for (PhoneNumber p : contact.getPhoneNumbers()) {
+
+                if (p.getNumber().contains(phone)) {
+                    results.add(contact);
+                    break;
+                }
+            }
+        }
+
+        return results;
+    }
+    
+    @Override
+    public List<Contact> searchByEmail(String email) {
+
+        List<Contact> results = new ArrayList<>();
+
+        for (Contact contact : contacts) {
+
+            for (EmailAddress e : contact.getEmailAddresses()) {
+
+                if (e.getEmail().toLowerCase().contains(email.toLowerCase())) {
+                    results.add(contact);
+                    break;
+                }
+            }
+        }
+
+        return results;
+    }
+    
+    @Override
+    public List<Contact> searchByTag(String tag) {
+
+        List<Contact> results = new ArrayList<>();
+
+        for (Contact contact : contacts) {
+
+            for (String t : contact.getTags()) {
+
+                if (t.equalsIgnoreCase(tag)) {
+                    results.add(contact);
+                    break;
+                }
+            }
+        }
+
+        return results;
     }
     
 }

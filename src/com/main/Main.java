@@ -1,6 +1,6 @@
 /*
 @author developer
-@version 8
+@version 9
 */
 
 package com.main;
@@ -37,6 +37,7 @@ public class Main {
             System.out.println("11. Bulk Delete Contacts");
             System.out.println("12. Bulk Tag Contacts");
             System.out.println("13. Export Contacts");
+            System.out.println("14. Search Contacts");
             System.out.print("Choose option: ");
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -46,7 +47,7 @@ public class Main {
                 switch (choice) {
 
                     // REGISTER 
-                    case 1:
+                    case 1:{
                         System.out.print("Enter Name: ");
                         String name = scanner.nextLine();
 
@@ -66,9 +67,10 @@ public class Main {
                         userService.register(user);
                         System.out.println("Registration Successful!");
                         break;
+                    }
 
                     // LOGIN 
-                    case 2:
+                    case 2:{
                         System.out.print("Enter Email: ");
                         String loginEmail = scanner.nextLine();
 
@@ -81,9 +83,10 @@ public class Main {
                             System.out.println("Invalid Credentials!");
                         }
                         break;
+                    }
 
                     // UPDATE NAME 
-                    case 3:
+                    case 3:{
                         if (!userService.isLoggedIn()) {
                             System.out.println("Please login first.");
                             break;
@@ -95,9 +98,10 @@ public class Main {
                         userService.updateName(newName);
                         System.out.println("Profile Updated Successfully!");
                         break;
+                    }
 
                     // CHANGE PASSWORD 
-                    case 4:
+                    case 4:{
                         if (!userService.isLoggedIn()) {
                             System.out.println("Please login first.");
                             break;
@@ -109,9 +113,10 @@ public class Main {
                         userService.changePassword(newPassword);
                         System.out.println("Password Changed Successfully!");
                         break;
+                    }
 
                     // CREATE CONTACT
-                    case 5:
+                    case 5:{
                         if (!userService.isLoggedIn()) {
                             System.out.println("Please login first.");
                             break;
@@ -155,9 +160,10 @@ public class Main {
                         System.out.println("Contact Created Successfully!");
                         System.out.println("Contact ID: " + contact.getId());
                         break;
+                	}
                         
                     // View Contact   
-                    case 6:
+                    case 6:{
 
                         if (!userService.isLoggedIn()) {
                             System.out.println("Please login first.");
@@ -177,6 +183,7 @@ public class Main {
                         }
 
                         break;
+                    }
                         
                     //Edit Contact 
                     case 7:{
@@ -334,6 +341,64 @@ public class Main {
                         contactService.exportContacts(ids, fileName);
 
                         System.out.println("Contacts exported successfully.");
+                        break;
+                    }
+                    
+                    case 14: {
+
+                        if (!userService.isLoggedIn()) {
+                            System.out.println("Please login first.");
+                            break;
+                        }
+
+                        System.out.println("Search By:");
+                        System.out.println("1. Name");
+                        System.out.println("2. Phone");
+                        System.out.println("3. Email");
+                        System.out.println("4. Tag");
+
+                        int searchChoice = Integer.parseInt(scanner.nextLine());
+
+                        List<Contact> results = new ArrayList<>();
+
+                        switch (searchChoice) {
+
+                            case 1:
+                                System.out.print("Enter name: ");
+                                String name = scanner.nextLine();
+                                results = contactService.searchByName(name);
+                                break;
+
+                            case 2:
+                                System.out.print("Enter phone: ");
+                                String phone = scanner.nextLine();
+                                results = contactService.searchByPhone(phone);
+                                break;
+
+                            case 3:
+                                System.out.print("Enter email: ");
+                                String email = scanner.nextLine();
+                                results = contactService.searchByEmail(email);
+                                break;
+
+                            case 4:
+                                System.out.print("Enter tag: ");
+                                String tag = scanner.nextLine();
+                                results = contactService.searchByTag(tag);
+                                break;
+
+                            default:
+                                System.out.println("Invalid option");
+                        }
+
+                        if (results.isEmpty()) {
+                            System.out.println("No contacts found.");
+                        } else {
+                            for (Contact c : results) {
+                                System.out.println(c);
+                            }
+                        }
+
                         break;
                     }
 
