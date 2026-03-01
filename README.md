@@ -4,11 +4,13 @@ MyContacts App is a Java-based, console-driven application implemented use-case 
 Features:
 
 1.User Management
+
 i) User registration
 ii) User authentication (login/logout)
 iii) Profile management
 
 2.Contact Management
+
 i) Create contacts
 ii) View contact details
 iii) Edit contact information
@@ -16,10 +18,12 @@ iv) Delete contacts
 v) Bulk Operations
     
 3.Search and Filtering
+
 i) Search contacts by name, phone number, email, tags  
 ii) Filter contacts by tag, date added, frequently contacted
 
 4.Tagging System
+
 i) Create custom tags  
 ii) Apply tags to contacts  
 iii) Remove tags from contacts  
