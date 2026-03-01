@@ -1,6 +1,6 @@
 /*
 @author developer
-@version 9
+@version 10
 */
 
 package com.main;
@@ -38,6 +38,7 @@ public class Main {
             System.out.println("12. Bulk Tag Contacts");
             System.out.println("13. Export Contacts");
             System.out.println("14. Search Contacts");
+            System.out.println("15. Filter Contacts");
             System.out.print("Choose option: ");
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -173,11 +174,12 @@ public class Main {
                         System.out.print("Enter Contact ID: ");
                         String contactId = scanner.nextLine();
 
-                        java.util.Optional<Contact> result =
-                                contactService.findContactById(contactId);
+                        java.util.Optional<Contact> result = contactService.findContactById(contactId);
 
                         if (result.isPresent()) {
-                            System.out.println(result.get());
+                        	Contact contact = result.get();
+                            contact.incrementContactCount();
+                            System.out.println(contact);
                         } else {
                             System.out.println("Contact not found.");
                         }
@@ -344,6 +346,7 @@ public class Main {
                         break;
                     }
                     
+                    //Search
                     case 14: {
 
                         if (!userService.isLoggedIn()) {
@@ -401,7 +404,55 @@ public class Main {
 
                         break;
                     }
+                    
+                    //Filter
+                    case 15: {
 
+                        if (!userService.isLoggedIn()) {
+                            System.out.println("Please login first.");
+                            break;
+                        }
+
+                        System.out.println("Filter Options:");
+                        System.out.println("1. By Tag");
+                        System.out.println("2. By Date Added");
+                        System.out.println("3. Frequently Contacted");
+
+                        int filterChoice = Integer.parseInt(scanner.nextLine());
+
+                        List<Contact> results = new ArrayList<>();
+
+                        switch (filterChoice) {
+
+                            case 1:
+                                System.out.print("Enter tag: ");
+                                String tag = scanner.nextLine();
+                                results = contactService.filterByTag(tag);
+                                break;
+
+                            case 2:
+                                results = contactService.filterByDateAdded();
+                                break;
+
+                            case 3:
+                                results = contactService.filterByFrequentlyContacted();
+                                break;
+
+                            default:
+                                System.out.println("Invalid option");
+                        }
+
+                        if (results.isEmpty()) {
+                            System.out.println("No contacts found.");
+                        } else {
+                            for (Contact c : results) {
+                                System.out.println(c);
+                            }
+                        }
+
+                        break;
+                      }
+                    
                     default:
                         System.out.println("Invalid Option!");
                 }

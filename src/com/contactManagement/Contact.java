@@ -15,7 +15,8 @@ public abstract class Contact {
     private List<EmailAddress> emailAddresses;
     private LocalDateTime createdAt;
     private Set<String> tags;
-
+    private int contactCount=0;
+    
     public Contact(String name) {
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("Contact name cannot be empty");
@@ -120,5 +121,13 @@ public abstract class Contact {
 
     public Set<String> getTags() {
         return new HashSet<>(tags); // defensive copy
+    }
+    
+    public void incrementContactCount() {
+        contactCount++;
+    }
+
+    public int getContactCount() {
+        return contactCount;
     }
 }

@@ -3,6 +3,7 @@ package com.contactManagement;
 import java.util.Optional;
 
 import com.searchAndFilter.SearchService;
+import com.searchAndFilter.FilterService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +11,10 @@ import java.util.Iterator;
 import java.io.FileWriter;
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 
-public class ContactService implements SearchService{
+public class ContactService implements SearchService,FilterService{
 
     private List<Contact> contacts = new ArrayList<>();
 
@@ -109,6 +112,7 @@ public class ContactService implements SearchService{
         writer.close();
     }
     
+    //Search by name
     @Override
     public List<Contact> searchByName(String name) {
 
@@ -123,6 +127,7 @@ public class ContactService implements SearchService{
         return results;
     }
     
+    //search by phone
     @Override
     public List<Contact> searchByPhone(String phone) {
 
@@ -142,6 +147,7 @@ public class ContactService implements SearchService{
         return results;
     }
     
+    //search by email
     @Override
     public List<Contact> searchByEmail(String email) {
 
@@ -161,6 +167,7 @@ public class ContactService implements SearchService{
         return results;
     }
     
+    //search by tag
     @Override
     public List<Contact> searchByTag(String tag) {
 
@@ -179,5 +186,60 @@ public class ContactService implements SearchService{
 
         return results;
     }
+    
+    //filter by tag
+    @Override
+    public List<Contact> filterByTag(String tag) {
+
+        List<Contact> results = new ArrayList<>();
+
+        for (Contact contact : contacts) {
+
+            for (String t : contact.getTags()) {
+
+                if (t.equalsIgnoreCase(tag)) {
+                    results.add(contact);
+                    break;
+                }
+            }
+        }
+
+        return results;
+    }
+    
+    //filter by date added
+    @Override
+    public List<Contact> filterByDateAdded() {
+
+        List<Contact> results = new ArrayList<>(contacts);
+
+        Collections.sort(results, new Comparator<Contact>() {
+
+            @Override
+            public int compare(Contact c1, Contact c2) {
+                return c1.getCreatedAt().compareTo(c2.getCreatedAt());
+            }
+        });
+
+        return results;
+    }
+    
+    //filter by frequently contacted 
+    @Override
+    public List<Contact> filterByFrequentlyContacted() {
+
+        List<Contact> results = new ArrayList<>(contacts);
+
+        Collections.sort(results, new Comparator<Contact>() {
+
+            @Override
+            public int compare(Contact c1, Contact c2) {
+                return Integer.compare(c2.getContactCount(), c1.getContactCount());
+            }
+        });
+
+        return results;
+    }
+    
     
 }
