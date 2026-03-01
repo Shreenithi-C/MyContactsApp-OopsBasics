@@ -15,13 +15,11 @@ iii) Edit contact information
 iv) Delete contacts
 v) Bulk Operations
     
-3. Search and Filtering
-
+3.Search and Filtering
 i) Search contacts by name, phone number, email, tags  
 ii) Filter contacts by tag, date added, frequently contacted
 
-4. Tagging System
-
+4.Tagging System
 i) Create custom tags  
 ii) Apply tags to contacts  
 iii) Remove tags from contacts  
