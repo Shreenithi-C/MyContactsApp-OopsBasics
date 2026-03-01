@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.HashSet;
 import java.util.Set;
+import com.tagManagement.*;
 
 public abstract class Contact {
 
@@ -14,8 +15,8 @@ public abstract class Contact {
     private List<PhoneNumber> phoneNumbers;
     private List<EmailAddress> emailAddresses;
     private LocalDateTime createdAt;
-    private Set<String> tags;
     private int contactCount=0;
+    private Set<Tag> tags = new HashSet<>();
     
     public Contact(String name) {
         if (name == null || name.isBlank()) {
@@ -113,21 +114,23 @@ public abstract class Contact {
         this.emailAddresses = new ArrayList<>(emailAddresses); 
     }
     
-    public void addTag(String tag) {
-        if (tag != null && !tag.isBlank()) {
-            tags.add(tag);
-        }
-    }
-
-    public Set<String> getTags() {
-        return new HashSet<>(tags); // defensive copy
-    }
-    
     public void incrementContactCount() {
         contactCount++;
     }
 
     public int getContactCount() {
         return contactCount;
+    }
+    
+    public void addTag(Tag tag) {
+        tags.add(tag);
+    }
+
+    public void removeTag(Tag tag) {
+        tags.remove(tag);
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
     }
 }

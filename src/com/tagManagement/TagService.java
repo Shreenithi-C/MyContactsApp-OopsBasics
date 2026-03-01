@@ -21,4 +21,16 @@ public class TagService {
     public Set<Tag> getAllTags() {
         return tags;
     }
+    
+    public Tag findTag(String name) {
+
+        for (Tag tag : tags) {
+
+            if (tag.getName().equalsIgnoreCase(name)) {
+                return tag;
+            }
+        }
+
+        return null;
+    }
 }

@@ -1,6 +1,6 @@
 /*
 @author developer
-@version 11
+@version 12
 */
 
 package com.main;
@@ -42,6 +42,9 @@ public class Main {
             System.out.println("15. Filter Contacts");
             System.out.println("16. Create Tag");
             System.out.println("17. View All Tags");
+            System.out.println("18. Apply tag to contact");
+            System.out.println("19. Remove tag from contact");
+            System.out.println("20. View Contact tags");
             System.out.print("Choose option: ");
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -479,6 +482,105 @@ public class Main {
 
                         for (Tag tag : tagService.getAllTags()) {
                             System.out.println(tag);
+                        }
+
+                        break;
+                    }
+                    
+                    //Apply tag
+                    case 18: {
+
+                        if (!userService.isLoggedIn()) {
+                            System.out.println("Please login first.");
+                            break;
+                        }
+
+                        System.out.print("Enter Contact ID: ");
+                        String contactId = scanner.nextLine();
+
+                        java.util.Optional<Contact> result =
+                                contactService.findContactById(contactId);
+
+                        if (result.isPresent()) {
+
+                            System.out.print("Enter Tag Name: ");
+                            String tagName = scanner.nextLine();
+
+                            Tag tag = tagService.findTag(tagName);
+
+                            if (tag != null) {
+
+                                Contact contact = result.get();
+                                contact.addTag(tag);
+
+                                System.out.println("Tag applied successfully.");
+
+                            } else {
+                                System.out.println("Tag not found.");
+                            }
+
+                        } else {
+                            System.out.println("Contact not found.");
+                        }
+
+                        break;
+                    }
+                    
+                    //Remove tag
+                    case 19: {
+
+                        System.out.print("Enter Contact ID: ");
+                        String contactId = scanner.nextLine();
+
+                        java.util.Optional<Contact> result =
+                                contactService.findContactById(contactId);
+
+                        if (result.isPresent()) {
+
+                            System.out.print("Enter Tag Name: ");
+                            String tagName = scanner.nextLine();
+
+                            Tag tag = tagService.findTag(tagName);
+
+                            if (tag != null) {
+
+                                Contact contact = result.get();
+                                contact.removeTag(tag);
+
+                                System.out.println("Tag removed.");
+
+                            } else {
+                                System.out.println("Tag not found.");
+                            }
+
+                        } else {
+                            System.out.println("Contact not found.");
+                        }
+
+                        break;
+                    }
+                    
+                    //view contact tags
+                    case 20: {
+
+                        System.out.print("Enter Contact ID: ");
+                        String contactId = scanner.nextLine();
+
+                        java.util.Optional<Contact> result =
+                                contactService.findContactById(contactId);
+
+                        if (result.isPresent()) {
+
+                            Contact contact = result.get();
+
+                            System.out.println("Tags:");
+
+                            for (Tag tag : contact.getTags()) {
+                                System.out.println(tag);
+                            }
+
+                        } else {
+                            System.out.println("Contact not found.");
                         }
 
                         break;

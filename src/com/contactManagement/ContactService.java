@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.searchAndFilter.SearchService;
 import com.searchAndFilter.FilterService;
+import com.tagManagement.Tag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,12 +79,17 @@ public class ContactService implements SearchService,FilterService{
         }
     }
     
-    //bulk tag
-    public void addTagToContacts(List<String> ids, String tag) {
+   // bulk tag
+    public void addTagToContacts(List<String> ids, String tagName) {
+
+        Tag tag = new Tag(tagName);
 
         for (Contact contact : contacts) {
+
             if (ids.contains(contact.getId())) {
+
                 contact.addTag(tag);
+
             }
         }
     }
@@ -175,9 +181,9 @@ public class ContactService implements SearchService,FilterService{
 
         for (Contact contact : contacts) {
 
-            for (String t : contact.getTags()) {
+            for (Tag t : contact.getTags()) {
 
-                if (t.equalsIgnoreCase(tag)) {
+                if (t.getName().equalsIgnoreCase(tag)) {
                     results.add(contact);
                     break;
                 }
@@ -195,9 +201,9 @@ public class ContactService implements SearchService,FilterService{
 
         for (Contact contact : contacts) {
 
-            for (String t : contact.getTags()) {
+            for (Tag t : contact.getTags()) {
 
-                if (t.equalsIgnoreCase(tag)) {
+                if (t.getName().equalsIgnoreCase(tag)) {
                     results.add(contact);
                     break;
                 }
