@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.HashSet;
+import java.util.Set;
 
 public abstract class Contact {
 
@@ -12,6 +14,7 @@ public abstract class Contact {
     private List<PhoneNumber> phoneNumbers;
     private List<EmailAddress> emailAddresses;
     private LocalDateTime createdAt;
+    private Set<String> tags;
 
     public Contact(String name) {
         if (name == null || name.isBlank()) {
@@ -22,6 +25,7 @@ public abstract class Contact {
         this.name = name;
         this.phoneNumbers = new ArrayList<>();
         this.emailAddresses = new ArrayList<>();
+        this.tags = new HashSet<>();
     }
     
     //deep copy
@@ -106,5 +110,15 @@ public abstract class Contact {
 
     public void setEmailAddresses(List<EmailAddress> emailAddresses) {
         this.emailAddresses = new ArrayList<>(emailAddresses); 
+    }
+    
+    public void addTag(String tag) {
+        if (tag != null && !tag.isBlank()) {
+            tags.add(tag);
+        }
+    }
+
+    public Set<String> getTags() {
+        return new HashSet<>(tags); // defensive copy
     }
 }

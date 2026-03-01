@@ -1,6 +1,6 @@
 /*
 @author developer
-@version 7
+@version 8
 */
 
 package com.main;
@@ -23,8 +23,7 @@ public class Main {
 
         while (running) {
 
-            System.out.println("\n UC-04: Contact Management System ");
-            System.out.println("\n===== UC-04: Contact Management System =====");
+            System.out.println("\n Contact Management System ");
             System.out.println("1. Register");
             System.out.println("2. Login");
             System.out.println("3. Update Profile Name");
@@ -35,6 +34,9 @@ public class Main {
             System.out.println("8. Delete Contact");
             System.out.println("9. Logout");
             System.out.println("10. Exit");
+            System.out.println("11. Bulk Delete Contacts");
+            System.out.println("12. Bulk Tag Contacts");
+            System.out.println("13. Export Contacts");
             System.out.print("Choose option: ");
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -151,6 +153,7 @@ public class Main {
                         contactService.addContact(contact);
 
                         System.out.println("Contact Created Successfully!");
+                        System.out.println("Contact ID: " + contact.getId());
                         break;
                         
                     // View Contact   
@@ -255,6 +258,84 @@ public class Main {
                         running = false;
                         System.out.println("Exiting Application...");
                         break;
+                    
+                    // Bulk Delete
+                    case 11: {
+
+                        if (!userService.isLoggedIn()) {
+                            System.out.println("Please login first.");
+                            break;
+                        }
+
+                        System.out.println("Enter Contact IDs separated by comma:");
+                        String input = scanner.nextLine();
+
+                        String[] idArray = input.split(",");
+                        List<String> ids = new ArrayList<>();
+
+                        for (String id : idArray) {
+                            ids.add(id.trim());
+                        }
+
+                        contactService.deleteContacts(ids);
+
+                        System.out.println("Selected contacts deleted.");
+                        break;
+                    }
+                    
+                    //Bulk Tag
+                    case 12: {
+
+                        if (!userService.isLoggedIn()) {
+                            System.out.println("Please login first.");
+                            break;
+                        }
+
+                        System.out.println("Enter Contact IDs separated by comma:");
+                        String input = scanner.nextLine();
+
+                        System.out.print("Enter tag: ");
+                        String tag = scanner.nextLine();
+
+                        String[] idArray = input.split(",");
+                        List<String> ids = new ArrayList<>();
+
+                        for (String id : idArray) {
+                            ids.add(id.trim());
+                        }
+
+                        contactService.addTagToContacts(ids, tag);
+
+                        System.out.println("Tag added to selected contacts.");
+                        break;
+                    }
+                    
+                    //Bulk export 
+                    case 13: {
+
+                        if (!userService.isLoggedIn()) {
+                            System.out.println("Please login first.");
+                            break;
+                        }
+
+                        System.out.println("Enter Contact IDs separated by comma:");
+                        String input = scanner.nextLine();
+
+                        System.out.print("Enter file name (example: contacts.txt): ");
+                        String fileName = scanner.nextLine();
+
+                        String[] idArray = input.split(",");
+                        List<String> ids = new ArrayList<>();
+
+                        for (String id : idArray) {
+                            ids.add(id.trim());
+                        }
+
+                        contactService.exportContacts(ids, fileName);
+
+                        System.out.println("Contacts exported successfully.");
+                        break;
+                    }
 
                     default:
                         System.out.println("Invalid Option!");

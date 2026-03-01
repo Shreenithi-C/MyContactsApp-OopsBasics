@@ -4,6 +4,9 @@ import java.util.Optional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
+import java.io.FileWriter;
+import java.io.File;
+import java.io.IOException;
 
 public class ContactService {
 
@@ -20,7 +23,7 @@ public class ContactService {
     public Optional<Contact> findContactById(String id) {
 
         for (Contact contact : contacts) {
-            if (contact.getId().equals(id)) {
+            if (contact.getId().equals(id.trim())) {
                 return Optional.of(contact);
             }
         }
@@ -38,6 +41,7 @@ public class ContactService {
         return false;
     }
 
+    //delete Contact
     public boolean deleteContact(String id) {
 
         Iterator<Contact> iterator = contacts.iterator();
@@ -52,6 +56,54 @@ public class ContactService {
         }
 
         return false;
+    }
+    
+    //bulk delete
+    public void deleteContacts(List<String> ids) {
+
+        Iterator<Contact> iterator = contacts.iterator();
+
+        while (iterator.hasNext()) {
+            Contact contact = iterator.next();
+
+            if (ids.contains(contact.getId())) {
+                iterator.remove();
+            }
+        }
+    }
+    
+    //bulk tag
+    public void addTagToContacts(List<String> ids, String tag) {
+
+        for (Contact contact : contacts) {
+            if (ids.contains(contact.getId())) {
+                contact.addTag(tag);
+            }
+        }
+    }
+    
+    //bulk export
+    public void exportContacts(List<String> ids, String fileName) throws IOException {
+
+        File folder = new File("exports");
+
+        // create folder if it doesn't exist
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+
+        File file = new File(folder, fileName);
+
+        FileWriter writer = new FileWriter(file);
+
+        for (Contact contact : contacts) {
+            if (ids.contains(contact.getId())) {
+                writer.write(contact.toString());
+                writer.write("\n-------------------\n");
+            }
+        }
+
+        writer.close();
     }
     
 }
