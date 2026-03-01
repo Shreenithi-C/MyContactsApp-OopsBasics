@@ -17,12 +17,12 @@ Features:
     
 3.Search and Filtering
 
-    i) Search contacts by Name, Phone number, Email, Tags
+    i) Search contacts by name, phone number, email, tags
    ii) Filter contacts by Tag, Date added,Frequently contacted
 
 4.Tagging System
 
-    i) Create custom tags (Family, Friends, Work)
+    i) Create custom tags
    ii) Apply tags to contacts
   iii) Remove tags from contacts
    iv) View tags assigned to a contact
