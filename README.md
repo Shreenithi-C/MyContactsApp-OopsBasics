@@ -17,7 +17,7 @@ Features:
     
 3.Search and Filtering
 
-    i) Search contacts by name, phone number, email, tags
+    i) Search contacts by name phone number email tags
    ii) Filter contacts by Tag, Date added,Frequently contacted
 
 4.Tagging System
